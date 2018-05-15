@@ -1,0 +1,14 @@
+uuid: 7e9072a9-39ee-4843-9101-62143a5bdebd
+name: 'Loan payments'
+mail: armandas.motuzas@gmail.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
