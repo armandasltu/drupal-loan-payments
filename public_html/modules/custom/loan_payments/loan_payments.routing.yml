@@ -1,0 +1,7 @@
+loan_payments.content:
+  path: '/loan-calculator'
+  defaults:
+    _controller: '\Drupal\loan_payments\Controller\LoanPaymentsAPIController::content'
+    _title: 'Loan calculator'
+  requirements:
+    _permission: 'access content'

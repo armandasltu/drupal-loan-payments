@@ -1,0 +1,6 @@
+type: module
+name: Loan Payments 2
+description: 'Custom module for Loan Payments'
+version: '8.x-3.0'
+core: '8.x'
+project: 'loan_payments'

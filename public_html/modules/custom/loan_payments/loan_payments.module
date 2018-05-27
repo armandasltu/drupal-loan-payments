@@ -1,0 +1,13 @@
+<?php
+
+function loan_payments_theme($existing, $type, $theme, $path) {
+  return [
+    'loan_output' => [
+      'variables' => [
+        'form' => NULL,
+        'summary' => NULL,
+        'list' => NULL,
+      ],
+    ],
+  ];
+}

@@ -1,0 +1,10 @@
+<div class="form">{{ form }}</div>
+<div class="summary">
+    {% for summaryItem in summary %}
+        <div>
+            <label>{{ summaryItem.label }}</label>
+            <span>{{ summaryItem.value }}</span>
+        </div>
+    {% endfor %}
+</div>
+<div class="list">{{ list }}</div>
