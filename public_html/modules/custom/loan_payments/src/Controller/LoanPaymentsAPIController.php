@@ -5,67 +5,56 @@ namespace Drupal\loan_payments\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Request;
 
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
- * Controller routines for loan-payments routes.
+ * Controller for loan-payments routes.
  */
-class LoanPaymentsAPIController extends ControllerBase {
+class LoanPaymentsAPIController extends ControllerBase implements ContainerInjectionInterface {
+
+  public static function create(ContainerInterface $container) {
+    return new static($container->get('module_handler'));
+  }
 
   public function content(Request $request) {
-
     $form_data = $request->query->get('form_data');
     $form = \Drupal::formBuilder()
       ->getForm('Drupal\loan_payments\Form\LoanPaymentsForm', $form_data);
-    dpm($form_data);
-    // Loan_Years*Num_Pmt_Per_Year
-    $summary = $this->getSummary($form_data);
-    //    $summary = [
-    //      'scheduled_numbers_of_payments' =>
-    //    ];
-    dpm($summary);
+
+    $form_data = (array) json_decode($form_data);
+    $manager = \Drupal::service('plugin.manager.loan_payments_api');
+    $plugin = $manager->createInstance('calculator');
+    $plugin->setData($form_data);
+
+    $summary = $this->getSummary($plugin);
+
+    $list = $plugin->getPaymentList();
+
     return [
       '#theme' => 'loan_output',
       '#form' => render($form),
       '#summary' => $summary,
-      '#list' => 'list',
+      '#list' => $list,
     ];
   }
 
-  private function getSummary($form_data) {
-    $result = '';
-    // Submitted data
-    $form_data = (array) json_decode($form_data);
-    // Calculation
-    dpm($form_data);
-    $sheduledPayments = (int) $form_data['payments_per_year'] * (int) $form_data['loan_period'];
-    $interestRate = (int) $form_data['annual_interest_rate'] * 100;
-    $beginBalance = (int) $form_data['loan_amount'];
-
+  private function getSummary($plugin) {
     $result = [
+      'scheduled_payment' => [
+        'label' => t('Scheduled payment'),
+        'value' => $plugin->getScheduledPayment(),
+      ],
       'scheduled_numbers_of_payments' => [
         'label' => t('Scheduled Number of Payments'),
-        'value' => $sheduledPayments,
+        'value' => $plugin->getScheduledPaymentNumbers(),
       ],
       'total_interest' => [
         'label' => t('Total Interest'),
-        'value' => $this->getTotalInterest($form_data),
+        'value' => $plugin->getTotalInterest(),
       ],
     ];
 
     return $result;
-  }
-
-  private function getTotalInterest($form_data) {
-    $sheduledPayments = (int) $form_data['payments_per_year'] * (int) $form_data['loan_period'];
-    $interestRate = (int) $form_data['annual_interest_rate'] / 100;
-    $beginBalance = (int) $form_data['loan_amount'];
-    $paymentsPerYear = (int) $form_data['payments_per_year'];
-    $cumulativeInterest = 0;
-    for ($i = 0; $i < $sheduledPayments; ++$i) {
-      $beginBalance -= $cumulativeInterest;
-      $cumulativeInterest += $beginBalance * ($interestRate / $paymentsPerYear);
-//      dpm($beginBalance * $interestRate / $paymentsPerYear);
-//      dpm($beginBalance);
-    }
-    return (int) $cumulativeInterest;
   }
 }

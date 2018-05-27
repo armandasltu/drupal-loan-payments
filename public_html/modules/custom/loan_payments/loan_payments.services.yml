@@ -1,0 +1,4 @@
+services:
+  plugin.manager.loan_payments_api:
+    class: \Drupal\loan_payments\Plugin\LoanPaymentsManager
+    parent: default_plugin_manager

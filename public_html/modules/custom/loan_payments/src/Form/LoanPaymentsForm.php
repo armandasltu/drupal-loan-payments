@@ -50,16 +50,16 @@ class LoanPaymentsForm extends FormBase {
       '#title' => $this->t('Number of Payments Per Year'),
       '#default_value' => isset($form_data['payments_per_year']) ? $form_data['payments_per_year'] : $default['payments_per_year'],
     ];
-    $form['loan_start_date'] = [
-      '#type' => 'date',
-      '#title' => $this->t('Start Date of Loan'),
-      '#default_value' => isset($form_data['loan_start_date']) ? $form_data['loan_start_date'] : $default['loan_start_date'],
-    ];
-    $form['optional_extra_payments'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Optional Extra Payments'),
-      '#default_value' => isset($form_data['optional_extra_payments']) ? $form_data['optional_extra_payments'] : $default['optional_extra_payments'],
-    ];
+//    $form['loan_start_date'] = [
+//      '#type' => 'date',
+//      '#title' => $this->t('Start Date of Loan'),
+//      '#default_value' => isset($form_data['loan_start_date']) ? $form_data['loan_start_date'] : $default['loan_start_date'],
+//    ];
+//    $form['optional_extra_payments'] = [
+//      '#type' => 'number',
+//      '#title' => $this->t('Optional Extra Payments'),
+//      '#default_value' => isset($form_data['optional_extra_payments']) ? $form_data['optional_extra_payments'] : $default['optional_extra_payments'],
+//    ];
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -70,14 +70,12 @@ class LoanPaymentsForm extends FormBase {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (strlen($form_state->getValue('loan_amount')) < 3) {
-      $form_state->setErrorByName('loan_amount', $this->t('The phone number is too short. Please enter a full phone number.'));
-    }
+//    if (strlen($form_state->getValue('loan_amount')) < 3) {
+//      $form_state->setErrorByName('loan_amount', $this->t('Too short'));
+//    }
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    drupal_set_message($this->t('Your phone number is @number', ['@number' => $form_state->getValue('loan_amount')]));
-
     $result = [
       'form_data' => json_encode([
         'loan_amount' => $form_state->getValue('loan_amount'),
@@ -90,5 +88,6 @@ class LoanPaymentsForm extends FormBase {
     ];
 
     $form_state->setRedirect('loan_payments.content', [], ['query' => $result]);
+    drupal_set_message($this->t('Successfully calculated'));
   }
 }
