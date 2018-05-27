@@ -160,8 +160,8 @@ class LoanPaymentsBase extends PluginBase implements LoanPaymentsInterface {
    */
   public function getPaymentList() {
     $interestRate = (float) $this->getAnnualInterestRate() / 100;
-    $beginingBalance = (float) $this->getLoanAmount();
-    $endingBalance = $beginingBalance;
+    $beginningBalance = (float) $this->getLoanAmount();
+    $endingBalance = $beginningBalance;
     $cumulativeInterest = 0;
     $result = [];
 
@@ -171,13 +171,13 @@ class LoanPaymentsBase extends PluginBase implements LoanPaymentsInterface {
       $endingBalance = $endingBalance - $this->getScheduledPayment() + $interest;
       $result[] = [
         'payment_number' => $i,
-        'begining_balance' => $beginingBalance,
+        'beginning_balance' => number_format($beginningBalance, 2, '.', ''),
         'scheduled_payment' => $this->getScheduledPayment(),
         'interest' => number_format($interest, 2, '.', ''),
         'ending_balance' => ($endingBalance > 0) ? number_format($endingBalance, 2, '.', '') : 0,
         'cumulative_interest' => (float) number_format($cumulativeInterest, 2, '.', ''),
       ];
-      $beginingBalance = $endingBalance;
+      $beginningBalance = $endingBalance;
     }
 
     return $result;

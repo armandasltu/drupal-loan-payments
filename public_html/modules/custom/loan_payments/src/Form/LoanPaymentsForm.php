@@ -31,24 +31,27 @@ class LoanPaymentsForm extends FormBase {
     // Form elements
     $form['loan_amount'] = [
       '#type' => 'number',
-      '#title' => $this->t('Loan amount'),
+      '#title' => $this->t('Loan amount (USD)'),
       '#default_value' => isset($form_data['loan_amount']) ? $form_data['loan_amount'] : $default['loan_amount'],
-
+      '#required' => TRUE,
     ];
     $form['annual_interest_rate'] = [
       '#type' => 'number',
-      '#title' => $this->t('Annual Interest Rate'),
+      '#title' => $this->t('Annual Interest Rate (%)'),
       '#default_value' => isset($form_data['annual_interest_rate']) ? $form_data['annual_interest_rate'] : $default['annual_interest_rate'],
+      '#required' => TRUE,
     ];
     $form['loan_period'] = [
       '#type' => 'number',
       '#title' => $this->t('Loan Period in Years'),
       '#default_value' => isset($form_data['loan_period']) ? $form_data['loan_period'] : $default['loan_period'],
+      '#required' => TRUE,
     ];
     $form['payments_per_year'] = [
       '#type' => 'number',
       '#title' => $this->t('Number of Payments Per Year'),
       '#default_value' => isset($form_data['payments_per_year']) ? $form_data['payments_per_year'] : $default['payments_per_year'],
+      '#required' => TRUE,
     ];
 //    $form['loan_start_date'] = [
 //      '#type' => 'date',
@@ -70,9 +73,14 @@ class LoanPaymentsForm extends FormBase {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
-//    if (strlen($form_state->getValue('loan_amount')) < 3) {
-//      $form_state->setErrorByName('loan_amount', $this->t('Too short'));
-//    }
+    if (
+      ($form_state->getValue('loan_amount') <= 0) ||
+      ($form_state->getValue('annual_interest_rate') <= 0) ||
+      ($form_state->getValue('loan_period') <= 0) ||
+      ($form_state->getValue('payments_per_year') <= 0)
+    ) {
+      $form_state->setErrorByName('loan_amount', $this->t('Number must be positive.'));
+    }
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -86,6 +94,11 @@ class LoanPaymentsForm extends FormBase {
         'optional_extra_payments' => $form_state->getValue('optional_extra_payments'),
       ]),
     ];
+
+    \Drupal::logger('loan_payment')->notice('Loan calculator submited with values: %output.',
+      [
+        '%output' => json_encode($result),
+      ]);
 
     $form_state->setRedirect('loan_payments.content', [], ['query' => $result]);
     drupal_set_message($this->t('Successfully calculated'));
