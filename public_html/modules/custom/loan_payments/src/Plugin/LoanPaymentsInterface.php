@@ -10,32 +10,32 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 interface LoanPaymentsInterface extends PluginInspectionInterface {
 
   /**
-   * @return string
+   * @return float
    */
   public function getLoanAmount();
 
   /**
-   * @param string $loanAmount
+   * @param float $loanAmount
    */
   public function setLoanAmount($loanAmount);
 
   /**
-   * @return string
+   * @return float
    */
   public function getAnnualInterestRate();
 
   /**
-   * @param string $annualInterestRate
+   * @param float $annualInterestRate
    */
   public function setAnnualInterestRate($annualInterestRate);
 
   /**
-   * @return string
+   * @return int
    */
   public function getLoanPeriod();
 
   /**
-   * @param string $loanPeriod
+   * @param int $loanPeriod
    */
   public function setLoanPeriod($loanPeriod);
 
@@ -60,12 +60,12 @@ interface LoanPaymentsInterface extends PluginInspectionInterface {
   public function setLoanStartDate($loanStartDate);
 
   /**
-   * @return string
+   * @return float
    */
   public function getOptionalExtraPayments();
 
   /**
-   * @param string $optionalExtraPayments
+   * @param float $optionalExtraPayments
    */
   public function setOptionalExtraPayments($optionalExtraPayments);
 
@@ -80,7 +80,13 @@ interface LoanPaymentsInterface extends PluginInspectionInterface {
   public function setData($form_data);
 
   /**
-   * @return int
+   * @return float
    */
   public function getTotalInterest();
+
+  /**
+   * @return array
+   */
+  public function getPaymentList();
+
 }

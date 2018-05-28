@@ -1,22 +1,27 @@
 <?php
 
-namespace Drupal\loan_payments\Controller;
+namespace Drupal\loan_payments\Plugin\Block;
 
-use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Request;
-
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Block\BlockBase;
 
 /**
- * Controller for loan-payments routes.
+ * Provides a 'LoanPaymentsBlock' Block.
+ *
+ * @Block(
+ *   id = "loan_payments_block",
+ *   admin_label = @Translation("Loan payments block"),
+ * )
  */
-class LoanPaymentsAPIController extends ControllerBase implements ContainerInjectionInterface {
-  public function content(Request $request) {
+class LoanPaymentsBlock extends BlockBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
     // Prepare form
-    $form_data = $request->query->get('form_data');
+    $form_data = \Drupal::request()->get('form_data');
     $form = \Drupal::formBuilder()
-      ->getForm('Drupal\loan_payments\Form\LoanPaymentsForm', $form_data);
+      ->getForm('Drupal\loan_payments\Form\LoanPaymentsForm');
     $build = [
       '#theme' => 'loan_output',
       '#form' => render($form),

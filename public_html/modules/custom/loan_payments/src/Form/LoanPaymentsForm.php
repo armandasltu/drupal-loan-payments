@@ -54,16 +54,16 @@ class LoanPaymentsForm extends FormBase {
       '#default_value' => isset($form_data['payments_per_year']) ? $form_data['payments_per_year'] : $default['payments_per_year'],
       '#required' => TRUE,
     ];
-//    $form['loan_start_date'] = [
-//      '#type' => 'date',
-//      '#title' => $this->t('Start Date of Loan'),
-//      '#default_value' => isset($form_data['loan_start_date']) ? $form_data['loan_start_date'] : $default['loan_start_date'],
-//    ];
-//    $form['optional_extra_payments'] = [
-//      '#type' => 'number',
-//      '#title' => $this->t('Optional Extra Payments'),
-//      '#default_value' => isset($form_data['optional_extra_payments']) ? $form_data['optional_extra_payments'] : $default['optional_extra_payments'],
-//    ];
+    $form['loan_start_date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('Start Date of Loan'),
+      '#default_value' => isset($form_data['loan_start_date']) ? $form_data['loan_start_date'] : $default['loan_start_date'],
+    ];
+    $form['optional_extra_payments'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Optional Extra Payments'),
+      '#default_value' => isset($form_data['optional_extra_payments']) ? $form_data['optional_extra_payments'] : $default['optional_extra_payments'],
+    ];
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',

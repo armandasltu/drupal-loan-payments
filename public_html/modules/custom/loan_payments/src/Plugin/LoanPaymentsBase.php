@@ -78,14 +78,14 @@ class LoanPaymentsBase extends PluginBase implements LoanPaymentsInterface {
   }
 
   /**
-   * @return int
+   * @return float
    */
   public function getOptionalExtraPayments() {
     return $this->pluginDefinition['optionalExtraPayments'];
   }
 
   /**
-   * @param int $optionalExtraPayments
+   * @param float $optionalExtraPayments
    */
   public function setOptionalExtraPayments($optionalExtraPayments) {
     $this->pluginDefinition['optionalExtraPayments'] = $optionalExtraPayments;
@@ -140,7 +140,7 @@ class LoanPaymentsBase extends PluginBase implements LoanPaymentsInterface {
     $this->calculateTotalInterest();
   }
 
-  public function calculateTotalInterest() {
+  private function calculateTotalInterest() {
     $interestRate = (float) $this->getAnnualInterestRate() / 100;
     $beginBalance = (float) $this->getLoanAmount();
     $totalInterest = 0;
@@ -186,7 +186,7 @@ class LoanPaymentsBase extends PluginBase implements LoanPaymentsInterface {
   /**
    * =PMT(R,n,Pv) function: P = (Pv*R) / [1 - (1 + R)^(-n)]
    */
-  public function calculateScheduledPayment() {
+  private function calculateScheduledPayment() {
     $interestRate = (int) $this->getAnnualInterestRate() / 100;
     $result = (($this->getLoanAmount() * ($interestRate / $this->getPaymentsPerYear())) / (1 - (pow((1 + ($interestRate / $this->getPaymentsPerYear())), (-1 * $this->getScheduledPaymentNumbers())))));
     $this->pluginDefinition['scheduledPayment'] = (float) number_format($result, 2, '.', '');

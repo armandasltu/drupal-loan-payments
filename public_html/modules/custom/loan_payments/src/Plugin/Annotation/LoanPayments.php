@@ -5,10 +5,8 @@ namespace Drupal\loan_payments\Plugin\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a flavor item annotation object.
- *
- * Plugin Namespace: Plugin\icecream\flavor
- *
+ * Defines a loan payments item annotation object.
+
  * @see \Drupal\loan_payments\Plugin\LoanPaymentsManager
  * @see plugin_api
  *
@@ -26,14 +24,14 @@ class LoanPayments extends Plugin {
   /**
    * Loam amount
    *
-   * @var int
+   * @var float
    */
   public $loanAmount;
 
   /**
    * Annual Interest Rate
    *
-   * @var int
+   * @var float
    */
   public $annualInterestRate;
 
@@ -57,7 +55,7 @@ class LoanPayments extends Plugin {
   public $loanStartDate;
 
   /**
-   * @var int
+   * @var float
    */
   public $optionalExtraPayments;
 
