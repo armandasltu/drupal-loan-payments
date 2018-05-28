@@ -18,25 +18,30 @@ class LoanPaymentsAPIController extends ControllerBase implements ContainerInjec
   }
 
   public function content(Request $request) {
+    // Prepare form
     $form_data = $request->query->get('form_data');
     $form = \Drupal::formBuilder()
       ->getForm('Drupal\loan_payments\Form\LoanPaymentsForm', $form_data);
-
-    $form_data = (array) json_decode($form_data);
-    $manager = \Drupal::service('plugin.manager.loan_payments_api');
-    $plugin = $manager->createInstance('calculator');
-    $plugin->setData($form_data);
-
-    $summary = $this->getSummary($plugin);
-
-    $list = $plugin->getPaymentList();
-
-    return [
+    $build = [
       '#theme' => 'loan_output',
       '#form' => render($form),
-      '#summary' => $summary,
-      '#list' => $list,
     ];
+
+    // Prepare output
+    if (!empty($form_data)) {
+      $form_data = (array) json_decode($form_data);
+      $manager = \Drupal::service('plugin.manager.loan_payments_api');
+      $plugin = $manager->createInstance('calculator');
+      $plugin->setData($form_data);
+
+      $summary = $this->getSummary($plugin);
+      $build['#summary'] = $summary;
+
+      $list = $plugin->getPaymentList();
+      $build['#list'] = $list;
+    }
+
+    return $build;
   }
 
   private function getSummary($plugin) {

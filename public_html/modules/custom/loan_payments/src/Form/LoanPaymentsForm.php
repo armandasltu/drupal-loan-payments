@@ -18,12 +18,13 @@ class LoanPaymentsForm extends FormBase {
     // Submitted data
     $form_data = (array) json_decode($form_data);
 
-    // TODO add to configuration
+    // Default configs
+    $default_config = \Drupal::config('loan_payments.settings');
     $default = [
-      'loan_amount' => '',
-      'annual_interest_rate' => '',
-      'loan_period' => '',
-      'payments_per_year' => '',
+      'loan_amount' => $default_config->get('form.loan_amount'),
+      'annual_interest_rate' => $default_config->get('form.annual_interest_rate'),
+      'loan_period' => $default_config->get('form.loan_period'),
+      'payments_per_year' => $default_config->get('form.payments_per_year'),
       'loan_start_date' => '',
       'optional_extra_payments' => '',
     ];

@@ -1,5 +1,5 @@
 type: module
-name: Loan Payments 2
+name: Loan Payments
 description: 'Custom module for Loan Payments'
 version: '8.x-3.0'
 core: '8.x'

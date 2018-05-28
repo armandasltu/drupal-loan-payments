@@ -1,41 +1,45 @@
 <div class="form">
     {{ form }}
 </div>
-<hr>
-<div class="summary">
-    <h2>{{ 'Loan Summary'|t }}</h2>
-    {% for summaryItem in summary %}
-        <div>
-            <label>{{ summaryItem.label }}</label>
-            <span>{{ summaryItem.value }}</span>
-        </div>
-    {% endfor %}
-</div>
-<hr>
-<div class="list">
-    <h2>{{ 'Loan Table'|t }}</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>{{ 'Payment number'|t }}</th>
-            <th>{{ 'Beginning balance'|t }}</th>
-            <th>{{ 'Scheduled payment'|t }}</th>
-            <th>{{ 'Interest'|t }}</th>
-            <th>{{ 'Ending balance'|t }}</th>
-            <th>{{ 'Cumulative interest'|t }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for listItem in list %}
-            <tr>
-                <td>{{ listItem.payment_number }}</td>
-                <td>{{ listItem.beginning_balance }}</td>
-                <td>{{ listItem.scheduled_payment }}</td>
-                <td>{{ listItem.interest }}</td>
-                <td>{{ listItem.ending_balance }}</td>
-                <td>{{ listItem.cumulative_interest }}</td>
-            </tr>
+{% if summary %}
+    <hr>
+    <div class="summary">
+        <h2>{{ 'Loan Summary'|t }}</h2>
+        {% for summaryItem in summary %}
+            <div>
+                <label>{{ summaryItem.label }}</label>
+                <span>{{ summaryItem.value }}</span>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-</div>
+    </div>
+{% endif %}
+{% if list %}
+    <hr>
+    <div class="list">
+        <h2>{{ 'Loan Table'|t }}</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ 'Payment number'|t }}</th>
+                <th>{{ 'Beginning balance'|t }}</th>
+                <th>{{ 'Scheduled payment'|t }}</th>
+                <th>{{ 'Interest'|t }}</th>
+                <th>{{ 'Ending balance'|t }}</th>
+                <th>{{ 'Cumulative interest'|t }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for listItem in list %}
+                <tr>
+                    <td>{{ listItem.payment_number }}</td>
+                    <td>{{ listItem.beginning_balance }}</td>
+                    <td>{{ listItem.scheduled_payment }}</td>
+                    <td>{{ listItem.interest }}</td>
+                    <td>{{ listItem.ending_balance }}</td>
+                    <td>{{ listItem.cumulative_interest }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

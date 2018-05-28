@@ -1,0 +1,5 @@
+form:
+  loan_amount: '20000'
+  annual_interest_rate: '5'
+  loan_period: '2'
+  payments_per_year: '12'
